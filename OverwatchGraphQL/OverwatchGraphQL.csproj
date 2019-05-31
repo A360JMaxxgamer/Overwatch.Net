@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>cb70ef96-19c6-46ca-8a56-a2ea25b41c9b</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="HotChocolate" Version="9.0.0-rc.4" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="9.0.0-rc.4" />
+    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="9.0.0-rc.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.0.0-preview6-19260-04" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.4.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\OverwatchAPI\OverwatchAPI.csproj" />
+  </ItemGroup>
+
+</Project>
