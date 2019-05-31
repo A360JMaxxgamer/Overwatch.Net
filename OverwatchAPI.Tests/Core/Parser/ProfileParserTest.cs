@@ -32,9 +32,6 @@ namespace Tests.Core.Parser
         public void Parsed_Profile_EndorsementLevel_Should_Be_Correct() =>
             Assert.Equal(2, _testPlayer.EndorsementLevel);
 
-        [Fact]
-        public void Parsed_Profile_EndorsementStats_Should_Be_Correct() =>
-            Assert.Equal(0.6111111111111112m, _testPlayer.Endorsements[Endorsement.GoodTeammate]);
 
         [Fact]
         public void Parsed_Profile_CompetitiveRank_Should_Be_Correct() => 

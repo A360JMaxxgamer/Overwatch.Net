@@ -20,23 +20,29 @@ namespace OverwatchAPI
         private readonly ProfileParser _profileParser;
 
         /// <summary>
-        /// Create a new instance of the OverwatchClient.
+        /// Create a new instance of the OverwatchClient which uses all <seealso cref="Platform"/>
         /// </summary>
-        /// <param name="platforms">If you only wish to detect certain platforms, provide them here - otherwise all platforms will be used.</param>
-        public OverwatchClient(params Platform[] platforms)
+        public OverwatchClient()
         {
             _profileParser = new ProfileParser();
             _profileClient = new HttpProfileClient();
+            DetectedPlatforms = Enum.GetValues(typeof(Platform)).Cast<Platform>().ToList();
+        }
+
+        /// <summary>
+        /// Create a new instance of the OverwatchClient.
+        /// </summary>
+        /// <param name="platforms">If you only wish to detect certain platforms, provide them here - otherwise all platforms will be used.</param>
+        public OverwatchClient(params Platform[] platforms) : this()
+        {
             if (platforms == null || platforms.Length == 0)
                 DetectedPlatforms = Enum.GetValues(typeof(Platform)).Cast<Platform>().ToList();
             else
                 DetectedPlatforms = platforms.Distinct().ToList();
         }
 
-        internal OverwatchClient(ProfileClient profileClient, params Platform[] platforms)
+        internal OverwatchClient(ProfileClient profileClient, params Platform[] platforms) : this()
         {
-            _profileClient = profileClient;
-            _profileParser = new ProfileParser();
             if (platforms == null || platforms.Length == 0)
                 DetectedPlatforms = Enum.GetValues(typeof(Platform)).Cast<Platform>().ToList();
             else

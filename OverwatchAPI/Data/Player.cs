@@ -23,14 +23,11 @@ namespace OverwatchAPI
         /// </summary>
         public string PlayerId { get; set; }
         public string ProfileUrl { get; set; }
-        public ushort PlayerLevel { get; set; }
+        public float PlayerLevel { get; set; }
         public string PlayerLevelImage { get; set; }
-        public ushort CompetitiveRank { get; set; }
-        public ushort EndorsementLevel { get; set; }
-        /// <summary>
-        /// Player endorsements are represented as a percentage - all numbers in here should add up to 1.
-        /// </summary>
-        public Dictionary<Endorsement, decimal> Endorsements { get; set; }
+        public float CompetitiveRank { get; set; }
+        public float EndorsementLevel { get; set; }
+
         /// <summary>
         /// If the players profile is private - No stats/achievements will be available.
         /// </summary>
@@ -39,7 +36,8 @@ namespace OverwatchAPI
         public List<Stat> CompetitiveStats { get; set; }
         public List<Achievement> Achievements { get; set; }
         public string CompetitiveRankImageUrl { get; set; }
-        public string ProfilePortraitUrl { get; set; }        
+        public string ProfilePortraitUrl { get; set; }
+        public Endorsement Endorsement { get; set; }
 
         public sealed class Alias
         {

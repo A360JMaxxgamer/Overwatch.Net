@@ -35,7 +35,6 @@ namespace OverwatchAPI.Parser
                 player.PlayerLevelImage = PlayerLevelImage(doc);
                 player.Platform = pageData.PlayerPlatform;
                 player.EndorsementLevel = EndorsementLevel(doc);
-                player.Endorsements = Endorsements(doc);
                 player.PlayerId = PlayerId(doc);
                 if (IsPlayerProfilePrivate(doc))
                 {
@@ -45,6 +44,7 @@ namespace OverwatchAPI.Parser
                 player.CompetitiveStats = Stats(doc, Mode.Competitive);
                 player.CasualStats = Stats(doc, Mode.Casual);
                 player.Achievements = Achievements(doc);
+                player.Endorsement = Endorsements(doc);
                 return player;
             }
         }
@@ -116,9 +116,9 @@ namespace OverwatchAPI.Parser
             return contents;
         }
 
-        private static Dictionary<Endorsement, decimal> Endorsements(IHtmlDocument doc)
+        private static Endorsement Endorsements(IHtmlDocument doc)
         {
-            var contents = new Dictionary<Endorsement, decimal>();
+            var result = new Endorsement();
 
             var innerContent = doc.QuerySelector("div.endorsement-level");
 
@@ -134,11 +134,23 @@ namespace OverwatchAPI.Parser
                         // parse the endorsement type out of the class name
                         const string endorsementTypeSeparator = "--";
                         var endorsementName = className.Substring(className.IndexOf(endorsementTypeSeparator, StringComparison.Ordinal) + endorsementTypeSeparator.Length);
-                        contents.Add(ParseEndorsementName(endorsementName), decimal.Parse(dataValue));
+                        switch (endorsementName)
+                        {
+                            case "teammate":
+                                result.GoodTeammate = float.Parse(dataValue);
+                                break;
+                            case "sportsmanship":
+                                result.Sportsmanship = float.Parse(dataValue);
+                                break;
+                            case "shotcaller":
+                            default:
+                                result.ShotCaller = float.Parse(dataValue);
+                                break;
+                        }
                     }
                 }
             }
-            return contents;
+            return result;
         }
 
         private static List<Platform> Platforms(IHtmlDocument doc)
@@ -226,21 +238,6 @@ namespace OverwatchAPI.Parser
         {
             // todo: This is disgusting I don't know how this line has survived so long.
             return input.ToLower() == "all heroes" ? "AllHeroes" : input.Replace("ú", "u").Replace(":", "").Replace(" ", "").Replace("ö", "o").Replace(".", "");
-        }
-
-        private static Endorsement ParseEndorsementName(string input)
-        {
-            switch (input)
-            {
-                case "teammate":
-                    return Endorsement.GoodTeammate;
-                case "sportsmanship":
-                    return Endorsement.Sportsmanship;
-                case "shotcaller":
-                    return Endorsement.Shotcaller;
-                default:
-                    return Endorsement.GoodTeammate;
-            }
         }
     }
 }
